@@ -1,19 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <title>Absensi Salat Siswa</title>
-  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-    select, #reader { margin-top: 10px; }
-    #result { margin-top: 15px; font-weight: bold; }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    h2 {
+      color: #2c3e50;
+    }
+    #reader {
+      width: 320px;
+      margin: 0 auto;
+      border: 2px solid #3498db;
+      border-radius: 10px;
+      background: white;
+      padding: 10px;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+    select {
+      margin-top: 10px;
+      padding: 8px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <h2>Absensi Salat Siswa</h2>
-
-  <label for="salat">Pilih Salat:</label>
+  <h2>📷 Absensi Salat Siswa</h2>
+  <p>Pilih jenis salat, lalu scan QR code siswa.</p>
+  
   <select id="salat">
     <option value="Subuh">Subuh</option>
     <option value="Dzuhur">Dzuhur</option>
@@ -22,46 +49,42 @@
     <option value="Isya">Isya</option>
   </select>
 
-  <div id="reader" style="width:300px; margin:auto; margin-top:20px;"></div>
-  <p id="result">Arahkan kamera ke QR Code siswa</p>
+  <div id="reader"></div>
+  <p id="result"></p>
 
   <script>
-    const scriptURL = "https://script.google.com/a/macros/guru.sma.belajar.id/s/AKfycbyXwwSoD86SQDJqxZCIX5idz-ctMYAO7yr6MHzk03qIAvUa2yaT6Wj8Hf8LxRsTArlX/exec";
+    const endpoint = "https://script.google.com/a/macros/guru.sma.belajar.id/s/AKfycbyXwwSoD86SQDJqxZCIX5idz-ctMYAO7yr6MHzk03qIAvUa2yaT6Wj8Hf8LxRsTArlX/exec";
 
-    function onScanSuccess(decodedText) {
-      document.getElementById("result").innerText = "ID Siswa: " + decodedText;
-      let id_siswa = decodedText.trim();
-      let salat = document.getElementById("salat").value;
+    function sendAbsensi(id_siswa) {
+      const salat = document.getElementById("salat").value;
 
-      fetch(scriptURL, {
+      fetch(endpoint, {
         method: "POST",
-        body: JSON.stringify({
-          id_siswa: id_siswa,
-          salat: salat
-        }),
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_siswa: id_siswa, salat: salat })
       })
       .then(res => res.json())
-      .then(response => {
-        alert(response.message);
+      .then(data => {
+        if (data.status === "success") {
+          document.getElementById("result").innerHTML = "✅ " + data.message;
+          document.getElementById("result").className = "";
+        } else {
+          document.getElementById("result").innerHTML = "❌ " + data.message;
+          document.getElementById("result").className = "error";
+        }
       })
       .catch(err => {
-        alert("Error: " + err);
+        document.getElementById("result").innerHTML = "⚠️ Gagal mengirim data";
+        document.getElementById("result").className = "error";
       });
     }
 
-    function onScanFailure(error) {
-      // Tidak perlu alert setiap kali gagal scan
+    function onScanSuccess(decodedText) {
+      sendAbsensi(decodedText);
     }
 
-    window.onload = function() {
-      let html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", 
-        { fps: 10, qrbox: 250 }
-      );
-      html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-    }
+    new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 })
+      .render(onScanSuccess);
   </script>
 </body>
 </html>
-
