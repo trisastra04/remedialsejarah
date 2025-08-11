@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Absensi Salat Siswa</title>
+  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    select, #reader { margin-top: 10px; }
+    #result { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Absensi Salat Siswa</h2>
+
+  <label for="salat">Pilih Salat:</label>
+  <select id="salat">
+    <option value="Subuh">Subuh</option>
+    <option value="Dzuhur">Dzuhur</option>
+    <option value="Ashar">Ashar</option>
+    <option value="Maghrib">Maghrib</option>
+    <option value="Isya">Isya</option>
+  </select>
+
+  <div id="reader" style="width:300px; margin:auto;"></div>
+  <p id="result">Arahkan kamera ke QR Code siswa</p>
+
+  <script>
+    const scriptURL = "https://script.google.com/a/macros/guru.sma.belajar.id/s/AKfycbyXwwSoD86SQDJqxZCIX5idz-ctMYAO7yr6MHzk03qIAvUa2yaT6Wj8Hf8LxRsTArlX/exec";
+
+    function onScanSuccess(decodedText) {
+      document.getElementById("result").innerText = "ID Siswa: " + decodedText;
+      let id_siswa = decodedText.trim();
+      let salat = document.getElementById("salat").value;
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({
+          id_siswa: id_siswa,
+          salat: salat
+        }),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(response => {
+        alert(response.message);
+      })
+      .catch(err => {
+        alert("Error: " + err);
+      });
+    }
+
+    function onScanFailure(error) {
+      // Tidak perlu alert setiap kali gagal scan
+    }
+
+    let html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", 
+      { fps: 10, qrbox: 250 }
+    );
+    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+  </script>
+</body>
+</html>
