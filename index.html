@@ -5,7 +5,7 @@
   <title>Absensi Salat Siswa</title>
   <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; }
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
     select, #reader { margin-top: 10px; }
     #result { margin-top: 15px; font-weight: bold; }
   </style>
@@ -22,7 +22,7 @@
     <option value="Isya">Isya</option>
   </select>
 
-  <div id="reader" style="width:300px; margin:auto;"></div>
+  <div id="reader" style="width:300px; margin:auto; margin-top:20px;"></div>
   <p id="result">Arahkan kamera ke QR Code siswa</p>
 
   <script>
@@ -54,11 +54,14 @@
       // Tidak perlu alert setiap kali gagal scan
     }
 
-    let html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader", 
-      { fps: 10, qrbox: 250 }
-    );
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    window.onload = function() {
+      let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", 
+        { fps: 10, qrbox: 250 }
+      );
+      html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    }
   </script>
 </body>
 </html>
+
