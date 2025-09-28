@@ -11,7 +11,6 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif;
-            /* PENAMBAHAN: Mencegah seleksi teks */
             -webkit-user-select: none; /* Safari */
             -ms-user-select: none; /* IE 10+ */
             user-select: none; /* Standar */
@@ -314,8 +313,8 @@
                 if (!response.ok) throw new Error('Gagal memuat password admin.');
                 const csvText = await response.text();
                 const rows = parseCSV(csvText);
-                rows.shift(); // Hapus header
-                state.adminPasswords = rows.map(row => row[0]).filter(Boolean); // Ambil kolom A
+                rows.shift();
+                state.adminPasswords = rows.map(row => row[0]).filter(Boolean);
             } catch (error) {
                 console.error(error);
             }
@@ -649,7 +648,8 @@
             const data = {
                 nama: state.selectedName, kelas: state.selectedClass, jawabanBenar: state.score, totalSoal: state.selectedQuizData.length,
                 nomorSoalDikerjakan: formattedLog, 
-                skor: finalScore
+                skor: finalScore,
+                type: 'Remedial'
             };
             try {
                 await fetch(webAppURL, {
