@@ -506,7 +506,7 @@
             allElements.selectionError.textContent = '';
             
             state.selectedQuizData = state.fullQuizData.filter(q => selectedNumbers.includes(q.originalIndex));
-
+            
             allElements.questionSelectionScreen.classList.add('hidden');
             allElements.studentNameDisplay.textContent = state.selectedName;
             allElements.studentClassDisplay.textContent = state.selectedClass;
