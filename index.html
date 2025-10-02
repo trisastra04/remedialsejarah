@@ -62,21 +62,6 @@
                 <p id="attempt-error" class="text-red-600 text-center text-sm mt-2 h-4"></p>
             </div>
         </div>
-
-        <!-- Pop Up Pemilihan Soal -->
-        <div id="question-selection-screen" class="hidden">
-            <h2 class="text-3xl font-bold text-slate-800 text-center">Pilih Soal Remedial</h2>
-            <p class="text-slate-600 text-center mt-4">Silakan centang nomor soal yang akan Anda kerjakan.</p>
-            <div id="question-checklist-container" class="my-6 grid grid-cols-5 sm:grid-cols-7 md:grid-cols-10 gap-2 max-h-64 overflow-y-auto border p-4 rounded-lg">
-                <!-- Checklist akan digenerate oleh JavaScript -->
-            </div>
-            <p id="selection-error" class="text-red-600 text-center text-sm h-4"></p>
-            <div class="text-center">
-                 <button id="start-remedial-button" class="w-full max-w-xs mx-auto mt-4 bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300 text-lg">
-                    Mulai Remedial
-                </button>
-            </div>
-        </div>
         
         <!-- Pop Up Peraturan -->
         <div id="rules-modal" class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center hidden z-50 p-8 rounded-2xl">
@@ -113,9 +98,10 @@
         <!-- Pop Up Password Reset -->
         <div id="password-reset-modal" class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center hidden z-50 p-8 rounded-2xl">
             <div class="text-center max-w-lg">
-                <h2 class="text-3xl font-bold text-slate-800">Masukkan Password</h2>
-                <p class="mt-4 text-slate-600">Untuk melanjutkan, silakan masukkan password admin.</p>
-                <div class="my-6">
+                <h2 class="text-3xl font-bold text-slate-800">Autentikasi Admin</h2>
+                <p class="mt-4 text-slate-600">Untuk melanjutkan, silakan masukkan ID dan password admin.</p>
+                <div class="my-6 space-y-4">
+                    <input type="text" id="id-reset-input" placeholder="ID Admin" class="mt-1 block w-full max-w-xs mx-auto rounded-md border-slate-300 shadow-sm p-3">
                     <input type="password" id="password-reset-input" placeholder="Password Admin" class="mt-1 block w-full max-w-xs mx-auto rounded-md border-slate-300 shadow-sm p-3">
                     <p id="password-reset-error" class="text-red-600 text-center text-sm mt-2 h-4"></p>
                 </div>
@@ -132,7 +118,7 @@
 
         <!-- Tampilan Loading Soal -->
         <div id="loading-screen" class="hidden text-center py-10">
-            <p class="text-slate-600">Memuat soal...</p>
+            <p id="loading-text" class="text-slate-600">Memuat...</p>
         </div>
 
         <!-- Tampilan Kuis -->
@@ -203,7 +189,7 @@
         const db = firebase.firestore();
         // --- AKHIR PENGATURAN FIREBASE ---
 
-        // --- PENGATURAN UMUM (Gunakan data dari aplikasi ulangan utama) ---
+        // --- PENGATURAN UMUM ---
         const QUIZ_DURATION_MINUTES = 45;
         const quizURLs = {
             'Kelas X': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=427248072&single=true&output=csv',
@@ -212,14 +198,16 @@
         };
         const studentSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=463026985&single=true&output=csv';
         const accessCodeSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=361839719&single=true&output=csv';
-        const adminPasswordSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=2110472329&single=true&output=csv';
-        const webAppURL = 'https://script.google.com/macros/s/AKfycby6XV6ZMW2VjYo9ErEGiFM0hj78WIB2bktrRzeinZ8n1km4Dv9F_4C2luxNPzgZ3ZHS/exec'; // Ganti jika Anda membuat Web App baru
+        const adminPasswordSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=1382150609&single=true&output=csv';
+        const webAppURL = 'https://script.google.com/macros/s/AKfycby6XV6ZMW2VjYo9ErEGiFM0hj78WIB2bktrRzeinZ8n1km4Dv9F_4C2luxNPzgZ3ZHS/exec';
+        const remedialPlanURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=1004047688&single=true&output=csv';
         
         // --- ELEMEN DOM ---
         const allElements = {
             loginScreen: document.getElementById('login-screen'), classDropdown: document.getElementById('class-dropdown'),
             accessCodeInput: document.getElementById('access-code-input'), nameContainer: document.getElementById('name-container'),
             nameDropdown: document.getElementById('name-dropdown'), loadingScreen: document.getElementById('loading-screen'),
+            loadingText: document.getElementById('loading-text'),
             quizScreen: document.getElementById('quiz-screen'), resultScreen: document.getElementById('result-screen'),
             startButton: document.getElementById('start-button'), nextButton: document.getElementById('next-button'),
             retryButton: document.getElementById('retry-button'), questionCounter: document.getElementById('question-counter'),
@@ -234,24 +222,21 @@
             resetModal: document.getElementById('reset-modal'), cancelResetButton: document.getElementById('cancel-reset-button'),
             confirmResetButton: document.getElementById('confirm-reset-button'),
             passwordResetModal: document.getElementById('password-reset-modal'),
+            idResetInput: document.getElementById('id-reset-input'),
             passwordResetInput: document.getElementById('password-reset-input'),
             passwordResetError: document.getElementById('password-reset-error'),
             confirmPasswordResetButton: document.getElementById('confirm-password-reset-button'),
             cancelPasswordResetButton: document.getElementById('cancel-password-reset-button'),
-            questionSelectionScreen: document.getElementById('question-selection-screen'),
-            questionChecklistContainer: document.getElementById('question-checklist-container'),
-            startRemedialButton: document.getElementById('start-remedial-button'),
-            selectionError: document.getElementById('selection-error'),
         };
 
         // --- STATE APLIKASI ---
         let state = {
-            fullQuizData: [], selectedQuizData: [], studentData: {}, accessCodeData: {}, adminPasswords: [], selectedClass: '', selectedName: '',
+            fullQuizData: [], selectedQuizData: [], studentData: {}, accessCodeData: {}, adminCredentials: [], selectedClass: '', selectedName: '',
             currentQuestionIndex: 0, score: 0, selectedAnswer: null, answeredQuestionsLog: [],
             timerInterval: null, timeLeft: 0, studentSessionId: null
         };
-
-        // --- FUNGSI-FUNGSI ---
+        
+        // --- FUNGSI-FUNGSI (KODE LENGKAP) ---
         function parseCSV(csvText) {
             const rows = []; let inQuotes = false; let currentField = ''; let currentRow = [];
             csvText = csvText.trim();
@@ -283,10 +268,12 @@
                 const rows = parseCSV(csvText);
                 const headers = rows.shift();
                 state.studentData = {};
-                headers.forEach(header => { state.studentData[header] = []; });
-                rows.forEach(row => {
-                    row.forEach((name, index) => { if (name && headers[index]) { state.studentData[headers[index]].push(name); } });
-                });
+                if (headers) {
+                    headers.forEach(header => { state.studentData[header] = []; });
+                    rows.forEach(row => {
+                        row.forEach((name, index) => { if (name && headers[index]) { state.studentData[headers[index]].push(name); } });
+                    });
+                }
                 return headers;
             } catch (error) { 
                 console.error("Kesalahan fetchStudentData:", error);
@@ -303,32 +290,70 @@
                 const headers = rows[0];
                 const codeRow = rows[1];
                 state.accessCodeData = {};
-                headers.forEach((className, index) => { if (codeRow[index]) { state.accessCodeData[className] = codeRow[index]; } });
+                if (headers && codeRow) {
+                    headers.forEach((className, index) => { if (codeRow[index]) { state.accessCodeData[className] = codeRow[index]; } });
+                }
             } catch (error) { console.error(error); }
         }
 
-        async function fetchAdminPasswords() {
+        async function fetchAdminCredentials() {
             try {
                 const response = await fetch(adminPasswordSheetURL);
-                if (!response.ok) throw new Error('Gagal memuat password admin.');
+                if (!response.ok) throw new Error('Gagal memuat kredensial admin.');
                 const csvText = await response.text();
                 const rows = parseCSV(csvText);
                 rows.shift();
-                state.adminPasswords = rows.map(row => row[0]).filter(Boolean);
+                state.adminCredentials = rows.map(row => ({ id: row[0], password: row[1] })).filter(cred => cred.id && cred.password);
             } catch (error) {
                 console.error(error);
+            }
+        }
+        
+        async function fetchRemedialPlan(className, studentName) {
+            allElements.loadingText.textContent = 'Mencari rencana remedial...';
+            if (!remedialPlanURL || !remedialPlanURL.startsWith('https')) {
+                throw new Error('URL untuk Rencana Remedial belum diatur.');
+            }
+            try {
+                const response = await fetch(remedialPlanURL + '&t=' + new Date().getTime());
+                if (!response.ok) throw new Error('Gagal memuat rencana remedial.');
+                const csvText = await response.text();
+                const rows = parseCSV(csvText);
+                const headers = rows.shift();
+                const colMap = {
+                    kelas: headers.indexOf('Kelas'),
+                    nama: headers.indexOf('Nama'),
+                    nomorSoal: headers.indexOf('NomorSoal')
+                };
+
+                if (colMap.kelas === -1 || colMap.nama === -1 || colMap.nomorSoal === -1) {
+                    throw new Error('Format kolom pada sheet Rencana Remedial salah.');
+                }
+                
+                const studentPlan = rows.find(row => row[colMap.kelas] === className && row[colMap.nama] === studentName);
+                if (studentPlan) {
+                    return studentPlan[colMap.nomorSoal].split(',').map(n => parseInt(n.trim())).filter(num => !isNaN(num));
+                }
+                return [];
+
+            } catch (error) {
+                console.error(error);
+                alert('Terjadi kesalahan saat memuat rencana remedial: ' + error.message);
+                return null;
             }
         }
 
         function populateClassDropdown(classes) {
             allElements.classDropdown.innerHTML = '<option value="">-- Pilih Kelas --</option>';
-            classes.forEach(className => {
-                if (className) {
-                    const option = document.createElement('option');
-                    option.value = className; option.textContent = className;
-                    allElements.classDropdown.appendChild(option);
-                }
-            });
+            if (classes) {
+                classes.forEach(className => {
+                    if (className) {
+                        const option = document.createElement('option');
+                        option.value = className; option.textContent = className;
+                        allElements.classDropdown.appendChild(option);
+                    }
+                });
+            }
         }
         
         function checkLoginConditions() {
@@ -346,11 +371,13 @@
         
         function populateNameDropdown(className) {
             allElements.nameDropdown.innerHTML = '<option value="">-- Pilih Nama --</option>';
-            state.studentData[className].forEach(name => {
-                const option = document.createElement('option');
-                option.value = name; option.textContent = name;
-                allElements.nameDropdown.appendChild(option);
-            });
+            if (state.studentData[className]) {
+                state.studentData[className].forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name; option.textContent = name;
+                    allElements.nameDropdown.appendChild(option);
+                });
+            }
         }
         
         function checkStartButton(){
@@ -374,9 +401,10 @@
         }
 
         async function fetchQuizData(quizSheetURL) {
+            allElements.loadingText.textContent = 'Memuat bank soal...';
             try {
                 const response = await fetch(quizSheetURL);
-                if (!response.ok) throw new Error(`Gagal memuat soal. Status: ${response.status}`);
+                if (!response.ok) throw new Error('Gagal memuat soal dari Google Sheet.');
                 const csvText = await response.text();
                 const rows = parseCSV(csvText);
                 const headers = rows.shift(); 
@@ -386,7 +414,7 @@
                     kunci: headers.indexOf('Kunci Jawaban')
                 };
 
-                if (colMap.kunci === -1) throw new Error("Format kolom 'Kunci Jawaban' tidak ditemukan.");
+                if (colMap.kunci === -1) throw new Error("Format kolom 'Kunci Jawaban' salah.");
                 
                 state.fullQuizData = []; 
                 rows.forEach((columns, index) => {
@@ -401,8 +429,8 @@
                         state.fullQuizData.push({ question, options, answer, originalIndex: index + 1 });
                     }
                 });
-                
-                if (state.fullQuizData.length === 0) throw new Error("Tidak ada soal yang berhasil dimuat setelah diproses.");
+
+                if (state.fullQuizData.length === 0) throw new Error("Tidak ada soal yang berhasil dimuat.");
                 return true;
             } catch (error) {
                 alert(`Terjadi Kesalahan: ${error.message}`);
@@ -410,6 +438,49 @@
             }
         }
         
+        async function startQuiz() {
+            state.selectedClass = allElements.classDropdown.value; 
+            state.selectedName = allElements.nameDropdown.value;
+            state.studentSessionId = `${state.selectedClass} - ${state.selectedName}`;
+            
+            allElements.loginScreen.classList.add('hidden');
+            allElements.loadingScreen.classList.remove('hidden');
+
+            const remedialQuestionNumbers = await fetchRemedialPlan(state.selectedClass, state.selectedName);
+            
+            if (remedialQuestionNumbers === null) {
+                allElements.loadingScreen.classList.add('hidden');
+                allElements.loginScreen.classList.remove('hidden');
+                return;
+            }
+
+            if (remedialQuestionNumbers.length === 0) {
+                allElements.loadingScreen.classList.add('hidden');
+                alert('Tidak ada soal remedial yang ditugaskan untuk Anda.');
+                resetToLogin();
+                return;
+            }
+            
+            let quizSheetURL = '';
+            if (state.selectedClass.startsWith('Kelas XII')) quizSheetURL = quizURLs['Kelas XII'];
+            else if (state.selectedClass.startsWith('Kelas XI')) quizSheetURL = quizURLs['Kelas XI'];
+            else if (state.selectedClass.startsWith('Kelas X')) quizSheetURL = quizURLs['Kelas X'];
+
+            if (!quizSheetURL.startsWith('https')) { alert(`URL bank soal untuk ${state.selectedClass} belum diatur.`); return; }
+            
+            const success = await fetchQuizData(quizSheetURL);
+            allElements.loadingScreen.classList.add('hidden');
+
+            if (success) {
+                state.selectedQuizData = state.fullQuizData.filter(q => remedialQuestionNumbers.includes(q.originalIndex));
+                allElements.studentNameDisplay.textContent = state.selectedName;
+                allElements.studentClassDisplay.textContent = state.selectedClass;
+                allElements.rulesModal.classList.remove('hidden');
+            } else {
+                allElements.loginScreen.classList.remove('hidden');
+            }
+        }
+
         function startTimer() {
             state.timeLeft = QUIZ_DURATION_MINUTES * 60;
             updateTimerDisplay();
@@ -459,65 +530,7 @@
                 showResults(true);
             }
         }
-
-        async function startQuiz() {
-            state.selectedClass = allElements.classDropdown.value; 
-            state.selectedName = allElements.nameDropdown.value;
-            state.studentSessionId = `${state.selectedClass} - ${state.selectedName}`;
-            
-            let quizSheetURL = '';
-            if (state.selectedClass.startsWith('Kelas XII')) quizSheetURL = quizURLs['Kelas XII'];
-            else if (state.selectedClass.startsWith('Kelas XI')) quizSheetURL = quizURLs['Kelas XI'];
-            else if (state.selectedClass.startsWith('Kelas X')) quizSheetURL = quizURLs['Kelas X'];
-
-            if (!quizSheetURL.startsWith('https')) { alert(`URL bank soal untuk ${state.selectedClass} belum diatur.`); return; }
-            
-            allElements.loginScreen.classList.add('hidden');
-            allElements.loadingScreen.classList.remove('hidden');
-
-            const success = await fetchQuizData(quizSheetURL);
-            allElements.loadingScreen.classList.add('hidden');
-
-            if (success) {
-                showQuestionSelection();
-            } else {
-                allElements.loginScreen.classList.remove('hidden');
-            }
-        }
-
-        function showQuestionSelection() {
-            allElements.questionChecklistContainer.innerHTML = '';
-            for (let i = 0; i < state.fullQuizData.length; i++) {
-                const questionNumber = state.fullQuizData[i].originalIndex;
-                const item = document.createElement('div');
-                item.classList.add('flex', 'items-center');
-                item.innerHTML = `
-                    <input id="q-${questionNumber}" type="checkbox" value="${questionNumber}" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="q-${questionNumber}" class="ml-2 block text-sm text-gray-900">${questionNumber}</label>
-                `;
-                allElements.questionChecklistContainer.appendChild(item);
-            }
-            allElements.questionSelectionScreen.classList.remove('hidden');
-        }
-
-        function handleStartRemedial() {
-            const selectedNumbers = Array.from(allElements.questionChecklistContainer.querySelectorAll('input[type="checkbox"]:checked'))
-                                         .map(cb => parseInt(cb.value));
-
-            if (selectedNumbers.length === 0) {
-                allElements.selectionError.textContent = 'Anda harus memilih minimal satu soal.';
-                return;
-            }
-            allElements.selectionError.textContent = '';
-            
-            state.selectedQuizData = state.fullQuizData.filter(q => selectedNumbers.includes(q.originalIndex));
-            
-            allElements.questionSelectionScreen.classList.add('hidden');
-            allElements.studentNameDisplay.textContent = state.selectedName;
-            allElements.studentClassDisplay.textContent = state.selectedClass;
-            allElements.rulesModal.classList.remove('hidden');
-        }
-
+        
         async function proceedToExam() {
             const studentId = state.studentSessionId;
             const attempts = parseInt(localStorage.getItem(studentId) || '0');
@@ -585,7 +598,6 @@
             }
             
             allElements.quizScreen.classList.add('hidden'); allElements.resultScreen.classList.add('hidden');
-            allElements.questionSelectionScreen.classList.add('hidden');
             allElements.loginScreen.classList.remove('hidden');
             allElements.accessCodeInput.value = ''; allElements.nameContainer.classList.add('hidden');
             allElements.nameDropdown.innerHTML = ''; allElements.classDropdown.selectedIndex = 0;
@@ -678,31 +690,32 @@
         function hidePasswordResetModal() {
             allElements.passwordResetModal.classList.add('hidden');
             allElements.passwordResetInput.value = '';
+            allElements.idResetInput.value = '';
             allElements.passwordResetError.textContent = '';
         }
 
         function verifyAndReset() {
+            const enteredId = allElements.idResetInput.value;
             const enteredPassword = allElements.passwordResetInput.value;
-            const isValid = state.adminPasswords.includes(enteredPassword);
+            const isValid = state.adminCredentials.find(cred => cred.id === enteredId && cred.password === enteredPassword);
 
             if (isValid) {
                 localStorage.clear();
                 hidePasswordResetModal();
                 location.reload();
             } else {
-                allElements.passwordResetError.textContent = 'Password salah.';
+                allElements.passwordResetError.textContent = 'ID atau Password salah.';
             }
         }
-
 
         // --- INISIALISASI ---
         document.addEventListener('DOMContentLoaded', async () => {
             allElements.startButton.disabled = true;
             await fetchAccessCodes();
             await fetchStudentData();
-            await fetchAdminPasswords();
+            await fetchAdminCredentials();
             const classes = Object.keys(state.studentData);
-            if (classes) { populateClassDropdown(classes); }
+            populateClassDropdown(classes);
         });
         
         allElements.classDropdown.addEventListener('change', checkLoginConditions);
@@ -716,13 +729,11 @@
             allElements.rulesModal.classList.add('hidden');
             proceedToExam();
         });
-        allElements.startRemedialButton.addEventListener('click', handleStartRemedial);
         allElements.resetButton.addEventListener('click', showResetModal);
         allElements.cancelResetButton.addEventListener('click', hideResetModal);
         allElements.confirmResetButton.addEventListener('click', requestResetPassword);
         allElements.cancelPasswordResetButton.addEventListener('click', hidePasswordResetModal);
         allElements.confirmPasswordResetButton.addEventListener('click', verifyAndReset);
-
     </script>
 </body>
 </html>
