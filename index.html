@@ -190,7 +190,6 @@
         // --- AKHIR PENGATURAN FIREBASE ---
 
         // --- PENGATURAN UMUM ---
-        const QUIZ_DURATION_MINUTES = 45;
         const quizURLs = {
             'Kelas X': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=427248072&single=true&output=csv',
             'Kelas XI': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=0&single=true&output=csv',
@@ -236,7 +235,6 @@
             timerInterval: null, timeLeft: 0, studentSessionId: null
         };
         
-        // --- FUNGSI-FUNGSI (KODE LENGKAP) ---
         function parseCSV(csvText) {
             const rows = []; let inQuotes = false; let currentField = ''; let currentRow = [];
             csvText = csvText.trim();
@@ -482,7 +480,7 @@
         }
 
         function startTimer() {
-            state.timeLeft = QUIZ_DURATION_MINUTES * 60;
+            state.timeLeft = state.selectedQuizData.length * 90; // 90 detik per soal
             updateTimerDisplay();
             state.timerInterval = setInterval(() => {
                 state.timeLeft--;
