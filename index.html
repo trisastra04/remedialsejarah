@@ -25,7 +25,7 @@
 <body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
 
     <!-- Tombol Reset Aplikasi di Pojok Halaman -->
-    <button id="reset-button" class="fixed top-4 left-4 text-xs text-slate-400 hover:text-red-600 hover:underline transition-colors z-50">
+    <button id="reset-button" class="fixed top-4 left-4 text-xs text-slate-500 hover:text-red-600 hover:underline transition-colors z-50">
         Reset Aplikasi
     </button>
 
@@ -64,7 +64,7 @@
         </div>
         
         <!-- Pop Up Peraturan -->
-        <div id="rules-modal" class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center hidden z-50 p-8 rounded-2xl">
+        <div id="rules-modal" class="absolute inset-0 bg-white flex items-center justify-center hidden z-50 p-8 rounded-2xl">
             <div class="text-center max-w-2xl">
                 <h2 class="text-3xl font-bold text-slate-800">Peraturan Remedial</h2>
                 <div class="my-6 text-justify bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-md">
@@ -79,8 +79,20 @@
             </div>
         </div>
 
+        <!-- Pop Up Peringatan Pindah Tab -->
+        <div id="warning-modal" class="absolute inset-0 bg-red-600/90 backdrop-blur-sm flex items-center justify-center hidden z-50 p-8 rounded-2xl text-white">
+            <div class="text-center max-w-2xl">
+                <h2 class="text-5xl font-bold">PERINGATAN!</h2>
+                <p class="mt-4 text-xl">Anda terdeteksi meninggalkan halaman ujian. Ujian telah dijeda.</p>
+                <p class="mt-2 font-bold text-yellow-300 text-lg">Ini adalah peringatan pertama dan terakhir Anda. Jika Anda melakukannya lagi, ujian akan dihentikan secara permanen.</p>
+                <button id="resume-button" class="w-full max-w-xs mx-auto mt-8 bg-white text-red-600 font-bold py-3 px-6 rounded-lg hover:bg-slate-100 transition-colors duration-300 text-lg">
+                    Saya Mengerti, Lanjutkan Ujian
+                </button>
+            </div>
+        </div>
+
         <!-- Pop Up Reset -->
-        <div id="reset-modal" class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center hidden z-50 p-8 rounded-2xl">
+        <div id="reset-modal" class="absolute inset-0 bg-white flex items-center justify-center hidden z-50 p-8 rounded-2xl">
             <div class="text-center max-w-lg">
                 <h2 class="text-3xl font-bold text-slate-800">Reset Aplikasi</h2>
                 <p class="mt-4 text-slate-600">Apakah Anda yakin ingin mereset semua data percobaan ujian di browser ini? Tindakan ini akan mengizinkan semua murid untuk mengambil ujian kembali dari perangkat ini.</p>
@@ -96,7 +108,7 @@
         </div>
 
         <!-- Pop Up Password Reset -->
-        <div id="password-reset-modal" class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center hidden z-50 p-8 rounded-2xl">
+        <div id="password-reset-modal" class="absolute inset-0 bg-white flex items-center justify-center hidden z-50 p-8 rounded-2xl">
             <div class="text-center max-w-lg">
                 <h2 class="text-3xl font-bold text-slate-800">Autentikasi Admin</h2>
                 <p class="mt-4 text-slate-600">Untuk melanjutkan, silakan masukkan ID dan password admin.</p>
@@ -217,6 +229,7 @@
             submitStatus: document.getElementById('submit-status'), submissionForm: document.getElementById('submission-form'),
             studentNameDisplay: document.getElementById('student-name-display'), studentClassDisplay: document.getElementById('student-class-display'),
             rulesModal: document.getElementById('rules-modal'), agreeButton: document.getElementById('agree-button'),
+            warningModal: document.getElementById('warning-modal'), resumeButton: document.getElementById('resume-button'),
             resetButton: document.getElementById('reset-button'), attemptError: document.getElementById('attempt-error'),
             resetModal: document.getElementById('reset-modal'), cancelResetButton: document.getElementById('cancel-reset-button'),
             confirmResetButton: document.getElementById('confirm-reset-button'),
@@ -232,9 +245,11 @@
         let state = {
             fullQuizData: [], selectedQuizData: [], studentData: {}, accessCodeData: {}, adminCredentials: [], selectedClass: '', selectedName: '',
             currentQuestionIndex: 0, score: 0, selectedAnswer: null, answeredQuestionsLog: [],
-            timerInterval: null, timeLeft: 0, studentSessionId: null
+            timerInterval: null, timeLeft: 0, studentSessionId: null, warningGiven: false
         };
         
+        // --- FUNGSI-FUNGSI LENGKAP ---
+
         function parseCSV(csvText) {
             const rows = []; let inQuotes = false; let currentField = ''; let currentRow = [];
             csvText = csvText.trim();
@@ -480,7 +495,7 @@
         }
 
         function startTimer() {
-            state.timeLeft = state.selectedQuizData.length * 90; // 90 detik per soal
+            state.timeLeft = state.selectedQuizData.length * 90;
             updateTimerDisplay();
             state.timerInterval = setInterval(() => {
                 state.timeLeft--;
@@ -716,22 +731,27 @@
             populateClassDropdown(classes);
         });
         
-        allElements.classDropdown.addEventListener('change', checkLoginConditions);
-        allElements.accessCodeInput.addEventListener('input', checkLoginConditions);
-        allElements.nameDropdown.addEventListener('change', checkStartButton);
-        allElements.startButton.addEventListener('click', startQuiz);
-        allElements.nextButton.addEventListener('click', handleNextQuestion);
-        allElements.retryButton.addEventListener('click', resetToLogin);
-        allElements.submitButton.addEventListener('click', submitScore);
-        allElements.agreeButton.addEventListener('click', () => {
+        allElements.classDropdown.addEventListener("change", checkLoginConditions);
+        allElements.accessCodeInput.addEventListener("input", checkLoginConditions);
+        allElements.nameDropdown.addEventListener("change", checkStartButton);
+        allElements.startButton.addEventListener("click", startQuiz);
+        allElements.nextButton.addEventListener("click", handleNextQuestion);
+        allElements.retryButton.addEventListener("click", resetToLogin);
+        allElements.submitButton.addEventListener("click", submitScore);
+        allElements.agreeButton.addEventListener("click", () => {
             allElements.rulesModal.classList.add('hidden');
             proceedToExam();
         });
-        allElements.resetButton.addEventListener('click', showResetModal);
-        allElements.cancelResetButton.addEventListener('click', hideResetModal);
-        allElements.confirmResetButton.addEventListener('click', requestResetPassword);
-        allElements.cancelPasswordResetButton.addEventListener('click', hidePasswordResetModal);
-        allElements.confirmPasswordResetButton.addEventListener('click', verifyAndReset);
+        allElements.resumeButton.addEventListener('click', () => {
+            allElements.warningModal.classList.add('hidden');
+            updateStudentStatus({ status: "Mengerjakan" });
+            resumeTimer();
+        });
+        allElements.resetButton.addEventListener("click", showResetModal);
+        allElements.cancelResetButton.addEventListener("click", hideResetModal);
+        allElements.confirmResetButton.addEventListener("click", requestResetPassword);
+        allElements.cancelPasswordResetButton.addEventListener("click", hidePasswordResetModal);
+        allElements.confirmPasswordResetButton.addEventListener("click", verifyAndReset);
     </script>
 </body>
 </html>
