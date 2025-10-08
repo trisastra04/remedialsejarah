@@ -69,10 +69,10 @@
                 <h2 class="text-3xl font-bold text-slate-800">Peraturan Remedial</h2>
                 <div class="my-6 text-justify bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-md">
                     <p class="font-bold text-lg text-center">Peringatan Penting:</p>
-                    <p class="mt-2">Jika Anda beralih ke tab lain, membuka aplikasi lain, atau meninggalkan halaman ujian ini dengan alasan apa pun, Anda akan diberikan <strong>SATU KALI PERINGATAN</strong>. Pelanggaran kedua akan menghentikan ujian secara permanen.</p>
+                    <p class="mt-2">Jika Anda beralih ke tab lain, membuka jendela/aplikasi lain, atau meninggalkan halaman ujian ini, Anda akan diberikan <strong>SATU KALI PERINGATAN</strong>. Pelanggaran kedua akan menghentikan ujian secara permanen.</p>
                     <p class="mt-2">Setiap murid hanya dapat mengerjakan ujian sebanyak <strong class="uppercase">MAKSIMAL 2 KALI</strong>.</p>
                 </div>
-                <p class="text-slate-600 text-justify">Pastikan Anda fokus mengerjakan ujian dan tidak membuka halaman lain.</p>
+                <p class="text-slate-600 text-justify">Pastikan Anda fokus mengerjakan ujian.</p>
                 <button id="agree-button" class="w-full max-w-xs mx-auto mt-8 bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-300 text-lg">
                     Saya Mengerti dan Setuju
                 </button>
@@ -83,8 +83,8 @@
         <div id="warning-modal" class="absolute inset-0 bg-red-600/90 backdrop-blur-sm flex items-center justify-center hidden z-50 p-8 rounded-2xl text-white">
             <div class="text-center max-w-2xl">
                 <h2 class="text-5xl font-bold">PERINGATAN!</h2>
-                <p class="mt-4 text-xl">Anda terdeteksi meninggalkan halaman ujian. Ujian telah dijeda.</p>
-                <p class="mt-2 font-bold text-yellow-300 text-lg">Ini adalah peringatan pertama dan terakhir Anda. Jika Anda melakukannya lagi, ujian akan dihentikan secara permanen.</p>
+                <p class="mt-4 text-xl">Anda terdeteksi meninggalkan jendela ujian. Ujian telah dijeda.</p>
+                <p class="mt-2 font-bold text-yellow-300 text-lg">Ini adalah peringatan pertama dan terakhir Anda. Jika Anda melakukannya lagi, ujian akan dihentikan secara permanen dan skor tidak akan disimpan.</p>
                 <button id="resume-button" class="w-full max-w-xs mx-auto mt-8 bg-white text-red-600 font-bold py-3 px-6 rounded-lg hover:bg-slate-100 transition-colors duration-300 text-lg">
                     Saya Mengerti, Lanjutkan Ujian
                 </button>
@@ -95,14 +95,10 @@
         <div id="reset-modal" class="absolute inset-0 bg-white flex items-center justify-center hidden z-50 p-8 rounded-2xl">
             <div class="text-center max-w-lg">
                 <h2 class="text-3xl font-bold text-slate-800">Reset Aplikasi</h2>
-                <p class="mt-4 text-slate-600">Apakah Anda yakin ingin mereset semua data percobaan ujian di browser ini? Tindakan ini akan mengizinkan semua murid untuk mengambil ujian kembali dari perangkat ini.</p>
+                <p class="mt-4 text-slate-600">Apakah Anda yakin ingin mereset semua data percobaan ujian di browser ini?</p>
                 <div class="mt-8 flex justify-center gap-4">
-                     <button id="cancel-reset-button" class="bg-slate-200 text-slate-800 font-bold py-3 px-6 rounded-lg hover:bg-slate-300">
-                        Batal
-                    </button>
-                    <button id="confirm-reset-button" class="bg-red-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-red-700">
-                        Ya, Reset Sekarang
-                    </button>
+                     <button id="cancel-reset-button" class="bg-slate-200 text-slate-800 font-bold py-3 px-6 rounded-lg hover:bg-slate-300">Batal</button>
+                    <button id="confirm-reset-button" class="bg-red-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-red-700">Ya, Reset Sekarang</button>
                 </div>
             </div>
         </div>
@@ -111,19 +107,15 @@
         <div id="password-reset-modal" class="absolute inset-0 bg-white flex items-center justify-center hidden z-50 p-8 rounded-2xl">
             <div class="text-center max-w-lg">
                 <h2 class="text-3xl font-bold text-slate-800">Autentikasi Admin</h2>
-                <p class="mt-4 text-slate-600">Untuk melanjutkan, silakan masukkan ID dan password admin.</p>
+                <p class="mt-4 text-slate-600">Masukkan ID dan password admin untuk melanjutkan.</p>
                 <div class="my-6 space-y-4">
                     <input type="text" id="id-reset-input" placeholder="ID Admin" class="mt-1 block w-full max-w-xs mx-auto rounded-md border-slate-300 shadow-sm p-3">
                     <input type="password" id="password-reset-input" placeholder="Password Admin" class="mt-1 block w-full max-w-xs mx-auto rounded-md border-slate-300 shadow-sm p-3">
                     <p id="password-reset-error" class="text-red-600 text-center text-sm mt-2 h-4"></p>
                 </div>
                 <div class="mt-8 flex justify-center gap-4">
-                    <button id="cancel-password-reset-button" class="bg-slate-200 text-slate-800 font-bold py-3 px-6 rounded-lg hover:bg-slate-300">
-                        Batal
-                    </button>
-                    <button id="confirm-password-reset-button" class="bg-red-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-red-700">
-                        Konfirmasi Reset
-                    </button>
+                    <button id="cancel-password-reset-button" class="bg-slate-200 text-slate-800 font-bold py-3 px-6 rounded-lg hover:bg-slate-300">Batal</button>
+                    <button id="confirm-password-reset-button" class="bg-red-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-red-700">Konfirmasi Reset</button>
                 </div>
             </div>
         </div>
@@ -150,11 +142,8 @@
             </div>
             <p id="question-text" class="text-lg text-slate-700 mb-6 min-h-[60px] whitespace-pre-wrap"></p>
             <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div class="mt-8 flex justify-between">
-                <button id="prev-button" class="bg-slate-200 text-slate-800 font-bold py-3 px-8 rounded-lg hover:bg-slate-300 transition-colors duration-300">
-                    Sebelumnya
-                </button>
-                <button id="next-button" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+            <div class="mt-8 flex justify-end">
+                <button id="next-button" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition-colors duration-300 disabled:bg-slate-300 disabled:cursor-not-allowed">
                     Selanjutnya
                 </button>
             </div>
@@ -219,45 +208,16 @@
         const remedialPlanURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnP8COEuoPRN4A6QqHCayDqWfciL9F7CQTasp4S1m4M0JAmYdvJuDjg7D1dqlnnyiJdtuMxRFOjBPg/pub?gid=1004047688&single=true&output=csv';
         
         // --- ELEMEN DOM ---
-        const allElements = {
-            loginScreen: document.getElementById('login-screen'), classDropdown: document.getElementById('class-dropdown'),
-            accessCodeInput: document.getElementById('access-code-input'), nameContainer: document.getElementById('name-container'),
-            nameDropdown: document.getElementById('name-dropdown'), loadingScreen: document.getElementById('loading-screen'),
-            loadingText: document.getElementById('loading-text'),
-            quizScreen: document.getElementById('quiz-screen'), resultScreen: document.getElementById('result-screen'),
-            startButton: document.getElementById('start-button'), 
-            prevButton: document.getElementById('prev-button'),
-            nextButton: document.getElementById('next-button'),
-            retryButton: document.getElementById('retry-button'), questionCounter: document.getElementById('question-counter'),
-            questionText: document.getElementById('question-text'), optionsContainer: document.getElementById('options-container'),
-            timerDisplay: document.getElementById('timer-display'), scoreText: document.getElementById('score-text'),
-            scoreDetails: document.getElementById('score-details'), finalName: document.getElementById('final-name'),
-            finalClass: document.getElementById('final-class'), 
-            submitStatus: document.getElementById('submit-status'), 
-            submissionStatusContainer: document.getElementById('submission-status-container'),
-            studentNameDisplay: document.getElementById('student-name-display'), studentClassDisplay: document.getElementById('student-class-display'),
-            rulesModal: document.getElementById('rules-modal'), agreeButton: document.getElementById('agree-button'),
-            resetButton: document.getElementById('reset-button'), attemptError: document.getElementById('attempt-error'),
-            resetModal: document.getElementById('reset-modal'), cancelResetButton: document.getElementById('cancel-reset-button'),
-            confirmResetButton: document.getElementById('confirm-reset-button'),
-            passwordResetModal: document.getElementById('password-reset-modal'),
-            idResetInput: document.getElementById('id-reset-input'),
-            passwordResetInput: document.getElementById('password-reset-input'),
-            passwordResetError: document.getElementById('password-reset-error'),
-            confirmPasswordResetButton: document.getElementById('confirm-password-reset-button'),
-            cancelPasswordResetButton: document.getElementById('cancel-password-reset-button'),
-            answerReviewSection: document.getElementById('answer-review-section'),
-            answerReviewContainer: document.getElementById('answer-review-container'),
-        };
+        let allElements;
 
         // --- STATE APLIKASI ---
         let state = {
             fullQuizData: [], selectedQuizData: [], studentData: {}, accessCodeData: {}, adminCredentials: [], selectedClass: '', selectedName: '',
             currentQuestionIndex: 0, studentAnswers: {}, answeredQuestionsLog: [],
-            timerInterval: null, timeLeft: 0, studentSessionId: null, isFinished: false
+            timerInterval: null, timeLeft: 0, studentSessionId: null, isFinished: false, warningGiven: false, isPausedByCheating: false,
         };
         
-        // --- KODE LENGKAP UNTUK SEMUA FUNGSI ---
+        // --- FUNGSI-FUNGSI LENGKAP ---
 
         function parseCSV(csvText){const rows=[];let inQuotes=!1,currentField="",currentRow=[];csvText=csvText.trim();for(let i=0;i<csvText.length;i++){const char=csvText[i],nextChar=csvText[i+1];if(inQuotes)char==='"'&&nextChar==='"'?(currentField+='"',i++):char==='"'?inQuotes=!1:currentField+=char;else if(char==='"')inQuotes=!0;else if(char===",")currentRow.push(currentField.trim()),currentField="";else if(char==="\n"||char==="\r")currentRow.push(currentField.trim()),rows.push(currentRow),currentRow=[],currentField="",char==="\r"&&nextChar==="\n"&&i++;else currentField+=char}if(currentField||currentRow.length>0)currentRow.push(currentField.trim()),rows.push(currentRow);return rows}
         async function fetchStudentData(){try{const response=await fetch(studentSheetURL);if(!response.ok)throw new Error("Gagal memuat data siswa.");const csvText=await response.text(),rows=parseCSV(csvText),headers=rows.shift();return state.studentData={},headers&&(headers.forEach(header=>{state.studentData[header]=[]}),rows.forEach(row=>{row.forEach((name,index)=>{name&&headers[index]&&state.studentData[headers[index]].push(name)})})),headers}catch(error){return alert(`Gagal memuat data siswa: ${error.message}`),console.error("Kesalahan fetchStudentData:",error),null}}
@@ -270,27 +230,79 @@
         function checkStartButton(){const className=allElements.classDropdown.value,name=allElements.nameDropdown.value,code=allElements.accessCodeInput.value.trim(),correctCodeForClass=state.accessCodeData[className];allElements.attemptError.textContent="",allElements.startButton.disabled=!0,className&&name&&code===correctCodeForClass&&parseInt(localStorage.getItem(`${className} - ${name}`)||"0")>=2?allElements.attemptError.textContent="Anda sudah mencapai batas maksimal pengerjaan (2 kali).":allElements.startButton.disabled=!1}
         async function fetchQuizData(quizSheetURL){allElements.loadingText.textContent="Memuat bank soal...";try{const response=await fetch(quizSheetURL);if(!response.ok)throw new Error("Gagal memuat soal dari Google Sheet.");const csvText=await response.text(),rows=parseCSV(csvText),headers=rows.shift(),colMap={soal:headers.indexOf("Soal"),opsiA:headers.indexOf("Opsi A"),opsiB:headers.indexOf("Opsi B"),opsiC:headers.indexOf("Opsi C"),opsiD:headers.indexOf("Opsi D"),opsiE:headers.indexOf("Opsi E"),kunci:headers.indexOf("Kunci Jawaban")};if(colMap.kunci===-1)throw new Error("Format kolom 'Kunci Jawaban' salah.");state.fullQuizData=[],rows.forEach((columns,index)=>{const question=columns[colMap.soal],options=[columns[colMap.opsiA],columns[colMap.opsiB],columns[colMap.opsiC],columns[colMap.opsiD],columns[colMap.opsiE]].filter(opt=>opt&&opt.trim()!==""),key=columns[colMap.kunci]?.toUpperCase().trim();let answer="";key==="A"?answer=columns[colMap.opsiA]:key==="B"?answer=columns[colMap.opsiB]:key==="C"?answer=columns[colMap.opsiC]:key==="D"?answer=columns[colMap.opsiD]:key==="E"&&(answer=columns[colMap.opsiE]),question&&options.length>1&&answer&&state.fullQuizData.push({question,options,answer,originalIndex:index+1})});if(state.fullQuizData.length===0)throw new Error("Tidak ada soal yang berhasil dimuat.");return!0}catch(error){return alert(`Terjadi Kesalahan: ${error.message}`),!1}}
         async function startQuiz(){state.selectedClass=allElements.classDropdown.value,state.selectedName=allElements.nameDropdown.value,state.studentSessionId=`${state.selectedClass} - ${state.selectedName}`,allElements.loginScreen.classList.add("hidden"),allElements.loadingScreen.classList.remove("hidden");const remedialQuestionNumbers=await fetchRemedialPlan(state.selectedClass,state.selectedName);if(remedialQuestionNumbers===null){allElements.loadingScreen.classList.add("hidden"),allElements.loginScreen.classList.remove("hidden");return}if(remedialQuestionNumbers.length===0){allElements.loadingScreen.classList.add("hidden"),alert("Tidak ada soal remedial yang ditugaskan untuk Anda."),resetToLogin();return}let quizSheetURL="";state.selectedClass.startsWith("Kelas XII")?quizSheetURL=quizURLs["Kelas XII"]:state.selectedClass.startsWith("Kelas XI")?quizSheetURL=quizURLs["Kelas XI"]:state.selectedClass.startsWith("Kelas X")&&(quizSheetURL=quizURLs["Kelas X"]);if(!quizSheetURL.startsWith("https")){alert(`URL bank soal untuk ${state.selectedClass} belum diatur.`);return}const success=await fetchQuizData(quizSheetURL);allElements.loadingScreen.classList.add("hidden"),success?(state.selectedQuizData=state.fullQuizData.filter(q=>remedialQuestionNumbers.includes(q.originalIndex)),allElements.studentNameDisplay.textContent=state.selectedName,allElements.studentClassDisplay.textContent=state.selectedClass,allElements.rulesModal.classList.remove("hidden")):allElements.loginScreen.classList.remove("hidden")}
-        function startTimer(){state.timeLeft=state.selectedQuizData.length*90,updateTimerDisplay(),state.timerInterval=setInterval(()=>{state.timeLeft--,updateTimerDisplay(),state.timeLeft<=0&&(clearInterval(state.timerInterval),showResults(!1))},1e3)}
+        function pauseTimer(){clearInterval(state.timerInterval)}function resumeTimer(){state.timerInterval=setInterval(()=>{state.timeLeft--,updateTimerDisplay(),state.timeLeft<=0&&(clearInterval(state.timerInterval),showResults(!1))},1e3)}function startTimer(){state.timeLeft=state.selectedQuizData.length*90,updateTimerDisplay(),resumeTimer()}
         function updateTimerDisplay(){const minutes=Math.floor(state.timeLeft/60),seconds=state.timeLeft%60;allElements.timerDisplay.textContent=`${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`,state.timeLeft<=60&&state.timeLeft>0?allElements.timerDisplay.classList.add("animate-pulse"):allElements.timerDisplay.classList.remove("animate-pulse")}
         function updateStudentStatus(statusUpdate){state.studentSessionId&&db.collection("remedial_sessions").doc(state.studentSessionId).update(statusUpdate).catch(error=>console.error("Gagal update status: ",error))}
         function logCheatingEvent(){state.studentSessionId&&db.collection("cheating_log").add({nama:state.selectedName,kelas:state.selectedClass,timestamp:firebase.firestore.FieldValue.serverTimestamp(),type:"Remedial"}).catch(error=>console.error("Gagal mencatat riwayat: ",error))}
-        function handleVisibilityChange(){document.hidden&&!allElements.quizScreen.classList.contains("hidden")&&(logCheatingEvent(),showResults(!0))}
-        async function proceedToExam(){const studentId=state.studentSessionId,attempts=parseInt(localStorage.getItem(studentId)||"0");localStorage.setItem(studentId,attempts+1),state.selectedQuizData.sort(()=>Math.random()-.5),state.currentQuestionIndex=0,state.studentAnswers={},state.isFinished=!1;try{await db.collection("remedial_sessions").doc(state.studentSessionId).set({nama:state.selectedName,kelas:state.selectedClass,soalDikerjakan:0,totalSoal:state.selectedQuizData.length,status:"Mengerjakan",last_updated:firebase.firestore.FieldValue.serverTimestamp()})}catch(error){console.error("Gagal mengirim status awal ke Firebase:",error),alert("Gagal terhubung ke server monitoring. Ujian akan tetap dilanjutkan tanpa pemantauan real-time.")}allElements.quizScreen.classList.remove("hidden"),loadQuestion(),startTimer(),document.addEventListener("visibilitychange",handleVisibilityChange)}
+        function handleCheatingDetection(){!allElements.quizScreen.classList.contains("hidden")&&!state.isPausedByCheating&&(state.warningGiven?(logCheatingEvent(),showResults(!0)):(pauseTimer(),state.isPausedByCheating=!0,state.warningGiven=!0,updateStudentStatus({status:"Peringatan 1: Keluar Jendela"}),allElements.warningModal.classList.remove("hidden")))}
+        const handleVisibilityChange=()=>{document.hidden&&handleCheatingDetection()};
+        async function proceedToExam(){const studentId=state.studentSessionId,attempts=parseInt(localStorage.getItem(studentId)||"0");localStorage.setItem(studentId,attempts+1),state.selectedQuizData.sort(()=>Math.random()-.5),state.currentQuestionIndex=0,state.studentAnswers={},state.isFinished=!1,state.warningGiven=!1;try{await db.collection("remedial_sessions").doc(state.studentSessionId).set({nama:state.selectedName,kelas:state.selectedClass,soalDikerjakan:0,totalSoal:state.selectedQuizData.length,status:"Mengerjakan",last_updated:firebase.firestore.FieldValue.serverTimestamp()})}catch(error){console.error("Gagal mengirim status awal ke Firebase:",error),alert("Gagal terhubung ke server monitoring. Ujian akan tetap dilanjutkan tanpa pemantauan real-time.")}allElements.quizScreen.classList.remove("hidden"),loadQuestion(),startTimer(),document.addEventListener("visibilitychange",handleVisibilityChange),window.addEventListener("blur",handleCheatingDetection)}
         function loadQuestion(){allElements.optionsContainer.innerHTML="";const currentQuestion=state.selectedQuizData[state.currentQuestionIndex];if(!currentQuestion)return console.error(`KESALAHAN: Tidak ada data soal pada indeks ${state.currentQuestionIndex}.`,state.selectedQuizData),alert("Terjadi kesalahan: Gagal memuat data soal berikutnya. Ujian dihentikan."),void showResults(!0);allElements.questionCounter.textContent=`Soal ${state.currentQuestionIndex+1} dari ${state.selectedQuizData.length}`,allElements.questionText.textContent=currentQuestion.question;const shuffledOptions=[...currentQuestion.options].sort(()=>Math.random()-.5);shuffledOptions.forEach(option=>{const button=document.createElement("button");button.textContent=option,button.classList.add("w-full","p-4","border-2","border-slate-300","rounded-lg","text-left","hover:bg-indigo-100","hover:border-indigo-400","transition-colors","duration-200"),state.studentAnswers[state.currentQuestionIndex]===option&&button.classList.add("selected-answer"),button.addEventListener("click",()=>selectAnswer(option,button)),allElements.optionsContainer.appendChild(button)}),updateNavButtons()}
-        function updateNavButtons(){allElements.prevButton.disabled=0===state.currentQuestionIndex,allElements.nextButton.textContent=state.currentQuestionIndex===state.selectedQuizData.length-1?"Selesai":"Selanjutnya"}
+        function updateNavButtons(){allElements.nextButton.textContent=state.currentQuestionIndex===state.selectedQuizData.length-1?"Selesai":"Selanjutnya"}
         function selectAnswer(option,buttonElement){state.studentAnswers[state.currentQuestionIndex]=option,document.querySelectorAll("#options-container button").forEach(btn=>btn.classList.remove("selected-answer")),buttonElement.classList.add("selected-answer")}
-        function resetToLogin(){state.timerInterval&&clearInterval(state.timerInterval),document.removeEventListener("visibilitychange",handleVisibilityChange),state.studentSessionId&&db.collection("remedial_sessions").doc(state.studentSessionId).delete(),allElements.quizScreen.classList.add("hidden"),allElements.resultScreen.classList.add("hidden"),allElements.loginScreen.classList.remove("hidden"),allElements.accessCodeInput.value="",allElements.nameContainer.classList.add("hidden"),allElements.nameDropdown.innerHTML="",allElements.classDropdown.selectedIndex=0,checkStartButton()}
-        function showResults(forceEnd=!1){if(state.isFinished)return;state.isFinished=!0,state.timerInterval&&clearInterval(state.timerInterval),document.removeEventListener("visibilitychange",handleVisibilityChange),state.studentSessionId&&db.collection("remedial_sessions").doc(state.studentSessionId).delete(),allElements.quizScreen.classList.add("hidden"),allElements.resultScreen.classList.remove("hidden");const resultTitle=allElements.resultScreen.querySelector("h1");if(forceEnd)resultTitle.textContent="Ulangan Dihentikan!",resultTitle.classList.add("text-red-600"),allElements.scoreDetails.textContent="Anda meninggalkan halaman. Skor tidak disimpan.",allElements.submissionStatusContainer.classList.add("hidden"),allElements.retryButton.classList.remove("hidden");else{resultTitle.textContent="Remedial Selesai!",resultTitle.classList.remove("text-red-600");let score=0;state.answeredQuestionsLog=[],Object.keys(state.studentAnswers).forEach(index=>{const question=state.selectedQuizData[index],studentAnswer=state.studentAnswers[index],isCorrect=studentAnswer===question.answer;state.answeredQuestionsLog.push({questionNumber:question.originalIndex,answer:studentAnswer,correct:isCorrect}),isCorrect&&score++});const finalScore=state.selectedQuizData.length>0?Math.round(100/state.selectedQuizData.length*score):0;allElements.scoreText.textContent=finalScore,allElements.scoreDetails.textContent=`Anda berhasil menjawab benar ${score} dari ${state.selectedQuizData.length} soal.`,allElements.finalName.textContent=state.selectedName,allElements.finalClass.textContent=state.selectedClass,submitScore(score)}}
-        function handleNav(direction){1===direction?state.currentQuestionIndex<state.selectedQuizData.length-1?state.currentQuestionIndex++:showResults(!1):-1===direction&&state.currentQuestionIndex>0&&state.currentQuestionIndex--,loadQuestion()}
+        function resetToLogin(){state.timerInterval&&clearInterval(state.timerInterval),document.removeEventListener("visibilitychange",handleVisibilityChange),window.removeEventListener("blur",handleCheatingDetection),state.studentSessionId&&db.collection("remedial_sessions").doc(state.studentSessionId).delete(),allElements.quizScreen.classList.add("hidden"),allElements.resultScreen.classList.add("hidden"),allElements.loginScreen.classList.remove("hidden"),allElements.accessCodeInput.value="",allElements.nameContainer.classList.add("hidden"),allElements.nameDropdown.innerHTML="",allElements.classDropdown.selectedIndex=0,checkStartButton()}
+        function showResults(forceEnd=!1){if(state.isFinished)return;state.isFinished=!0,state.timerInterval&&clearInterval(state.timerInterval),document.removeEventListener("visibilitychange",handleVisibilityChange),window.removeEventListener("blur",handleCheatingDetection),state.studentSessionId&&db.collection("remedial_sessions").doc(state.studentSessionId).delete(),allElements.quizScreen.classList.add("hidden"),allElements.resultScreen.classList.remove("hidden");const resultTitle=allElements.resultScreen.querySelector("h1");if(forceEnd)resultTitle.textContent="Ulangan Dihentikan!",resultTitle.classList.add("text-red-600"),allElements.scoreDetails.textContent="Anda meninggalkan jendela ujian. Skor tidak disimpan.",allElements.submissionStatusContainer.classList.add("hidden"),allElements.retryButton.classList.remove("hidden");else{resultTitle.textContent="Remedial Selesai!",resultTitle.classList.remove("text-red-600");let score=0;state.answeredQuestionsLog=[];for(let i=0;i<state.selectedQuizData.length;i++){const question=state.selectedQuizData[i],studentAnswer=state.studentAnswers[i],isCorrect=studentAnswer===question.answer;state.answeredQuestionsLog.push({questionNumber:question.originalIndex,answer:studentAnswer||"Tidak Dijawab",correct:isCorrect}),isCorrect&&score++}const finalScore=state.selectedQuizData.length>0?Math.round(100/state.selectedQuizData.length*score):0;allElements.scoreText.textContent=finalScore,allElements.scoreDetails.textContent=`Anda berhasil menjawab benar ${score} dari ${state.selectedQuizData.length} soal.`,allElements.finalName.textContent=state.selectedName,allElements.finalClass.textContent=state.selectedClass,submitScore(score)}}
+        function handleNav(){state.currentQuestionIndex<state.selectedQuizData.length-1?state.currentQuestionIndex++:showResults(!1),loadQuestion()}
         async function submitScore(score){allElements.submitStatus.textContent="Menyimpan skor secara otomatis...";const sortedLog=[...state.answeredQuestionsLog].sort((a,b)=>a.questionNumber-b.questionNumber),formattedLog=sortedLog.map(log=>`Soal ${log.questionNumber}: "${log.answer}" (${log.correct?"Benar":"Salah"})`).join("; "),finalScore=state.selectedQuizData.length>0?Math.round(100/state.selectedQuizData.length*score):0,data={nama:state.selectedName,kelas:state.selectedClass,jawabanBenar:score,totalSoal:state.selectedQuizData.length,nomorSoalDikerjakan:formattedLog,skor:finalScore,type:"Remedial"};try{const response=await fetch(webAppURL,{method:"POST",mode:"no-cors",cache:"no-cache",headers:{"Content-Type":"application/json"},body:JSON.stringify(data),redirect:"follow"});allElements.submitStatus.textContent="Skor berhasil disimpan!",allElements.submitStatus.style.color="green",displayAnswerReview(),allElements.retryButton.classList.remove("hidden")}catch(error){allElements.submitStatus.textContent="Gagal mengirim. Silakan periksa koneksi dan coba lagi.",allElements.submitStatus.style.color="red",allElements.retryButton.classList.remove("hidden")}}
-        function displayAnswerReview(){allElements.answerReviewSection.classList.remove("hidden"),allElements.answerReviewContainer.innerHTML="";const sortedLog=[...state.answeredQuestionsLog].sort((a,b)=>a.questionNumber-b.questionNumber);sortedLog.forEach(log=>{const questionData=state.selectedQuizData.find(q=>q.originalIndex===log.questionNumber);if(!questionData)return;const isCorrect=log.correct,resultClass=isCorrect?"border-green-500 bg-green-50":"border-red-500 bg-red-50";let answerHtml="";answerHtml=isCorrect?`<p class="mt-2 text-sm">Jawaban Anda: <span class="font-semibold text-green-700">${log.answer} (Benar)</span></p>`:`<p class="mt-2 text-sm">Jawaban Anda: <span class="font-semibold text-red-700">${log.answer} (Salah)</span></p>`;const questionElement=`\n            <div class="p-4 border-l-4 ${resultClass} rounded-r-lg">\n                <p class="font-semibold text-slate-800">Soal #${log.questionNumber}: ${questionData.question}</p>\n                ${answerHtml}\n            </div>\n        `;allElements.answerReviewContainer.innerHTML+=questionElement})}
+        function displayAnswerReview(){allElements.answerReviewSection.classList.remove("hidden"),allElements.answerReviewContainer.innerHTML="";const sortedLog=[...state.answeredQuestionsLog].sort((a,b)=>a.questionNumber-b.questionNumber);sortedLog.forEach(log=>{const questionData=state.fullQuizData.find(q=>q.originalIndex===log.questionNumber);if(!questionData)return;const isCorrect=log.correct,resultClass=isCorrect?"border-green-500 bg-green-50":"border-red-500 bg-red-50";let answerHtml="";answerHtml=isCorrect?`<p class="mt-2 text-sm">Jawaban Anda: <span class="font-semibold text-green-700">${log.answer} (Benar)</span></p>`:`<p class="mt-2 text-sm">Jawaban Anda: <span class="font-semibold text-red-700">${log.answer} (Salah)</span></p>`;const questionElement=`\n            <div class="p-4 border-l-4 ${resultClass} rounded-r-lg">\n                <p class="font-semibold text-slate-800">Soal #${log.questionNumber}: ${questionData.question}</p>\n                ${answerHtml}\n            </div>\n        `;allElements.answerReviewContainer.innerHTML+=questionElement})}
         function showResetModal(){allElements.resetModal.classList.remove("hidden")}function hideResetModal(){allElements.resetModal.classList.add("hidden")}
         function requestResetPassword(){hideResetModal(),allElements.passwordResetModal.classList.remove("hidden")}
         function hidePasswordResetModal(){allElements.passwordResetModal.classList.add("hidden"),allElements.passwordResetInput.value="",allElements.idResetInput.value="",allElements.passwordResetError.textContent=""}
         function verifyAndReset(){const enteredId=allElements.idResetInput.value,enteredPassword=allElements.passwordResetInput.value,isValid=state.adminCredentials.find(cred=>cred.id===enteredId&&cred.password===enteredPassword);isValid?(localStorage.clear(),hidePasswordResetModal(),location.reload()):allElements.passwordResetError.textContent="ID atau Password salah."}
-        document.addEventListener("DOMContentLoaded",async()=>{allElements.startButton.disabled=!0,await fetchAccessCodes(),await fetchStudentData(),await fetchAdminCredentials();const classes=Object.keys(state.studentData);populateClassDropdown(classes)});
-        allElements.classDropdown.addEventListener("change",checkLoginConditions),allElements.accessCodeInput.addEventListener("input",checkLoginConditions),allElements.nameDropdown.addEventListener("change",checkStartButton),allElements.startButton.addEventListener("click",startQuiz),allElements.nextButton.addEventListener("click",()=>handleNav(1)),allElements.prevButton.addEventListener("click",()=>handleNav(-1)),allElements.retryButton.addEventListener("click",resetToLogin),allElements.agreeButton.addEventListener("click",()=>{allElements.rulesModal.classList.add("hidden"),proceedToExam()});
-        allElements.resetButton.addEventListener("click",showResetModal),allElements.cancelResetButton.addEventListener("click",hideResetModal),allElements.confirmResetButton.addEventListener("click",requestResetPassword),allElements.cancelPasswordResetButton.addEventListener("click",hidePasswordResetModal),allElements.confirmPasswordResetButton.addEventListener("click",verifyAndReset);
+        
+        document.addEventListener("DOMContentLoaded",async()=>{
+            allElements = {
+                loginScreen: document.getElementById('login-screen'), classDropdown: document.getElementById('class-dropdown'),
+                accessCodeInput: document.getElementById('access-code-input'), nameContainer: document.getElementById('name-container'),
+                nameDropdown: document.getElementById('name-dropdown'), loadingScreen: document.getElementById('loading-screen'),
+                loadingText: document.getElementById('loading-text'),
+                quizScreen: document.getElementById('quiz-screen'), resultScreen: document.getElementById('result-screen'),
+                startButton: document.getElementById('start-button'), 
+                prevButton: document.getElementById('prev-button'),
+                nextButton: document.getElementById('next-button'),
+                retryButton: document.getElementById('retry-button'), questionCounter: document.getElementById('question-counter'),
+                questionText: document.getElementById('question-text'), optionsContainer: document.getElementById('options-container'),
+                timerDisplay: document.getElementById('timer-display'), scoreText: document.getElementById('score-text'),
+                scoreDetails: document.getElementById('score-details'), finalName: document.getElementById('final-name'),
+                finalClass: document.getElementById('final-class'), 
+                submitStatus: document.getElementById('submit-status'), 
+                submissionStatusContainer: document.getElementById('submission-status-container'),
+                studentNameDisplay: document.getElementById('student-name-display'), studentClassDisplay: document.getElementById('student-class-display'),
+                rulesModal: document.getElementById('rules-modal'), agreeButton: document.getElementById('agree-button'),
+                warningModal: document.getElementById('warning-modal'), resumeButton: document.getElementById('resume-button'),
+                resetButton: document.getElementById('reset-button'), attemptError: document.getElementById('attempt-error'),
+                resetModal: document.getElementById('reset-modal'), cancelResetButton: document.getElementById('cancel-reset-button'),
+                confirmResetButton: document.getElementById('confirm-reset-button'),
+                passwordResetModal: document.getElementById('password-reset-modal'),
+                idResetInput: document.getElementById('id-reset-input'),
+                passwordResetInput: document.getElementById('password-reset-input'),
+                passwordResetError: document.getElementById('password-reset-error'),
+                confirmPasswordResetButton: document.getElementById('confirm-password-reset-button'),
+                cancelPasswordResetButton: document.getElementById('cancel-password-reset-button'),
+                answerReviewSection: document.getElementById('answer-review-section'),
+                answerReviewContainer: document.getElementById('answer-review-container'),
+            };
+
+            allElements.startButton.disabled=!0;
+            await fetchAccessCodes();
+            const classes = await fetchStudentData();
+            await fetchAdminCredentials();
+            populateClassDropdown(classes);
+
+            allElements.classDropdown.addEventListener("change",checkLoginConditions);
+            allElements.accessCodeInput.addEventListener("input",checkLoginConditions);
+            allElements.nameDropdown.addEventListener("change",checkStartButton);
+            allElements.startButton.addEventListener("click",startQuiz);
+            allElements.nextButton.addEventListener("click",handleNav);
+            allElements.retryButton.addEventListener("click",resetToLogin);
+            allElements.agreeButton.addEventListener("click",()=>{allElements.rulesModal.classList.add("hidden"),proceedToExam()});
+            allElements.resumeButton.addEventListener('click',()=>{allElements.warningModal.classList.add("hidden"),state.isPausedByCheating=!1,updateStudentStatus({status:"Mengerjakan"}),resumeTimer()});
+            allElements.resetButton.addEventListener("click",showResetModal);
+            allElements.cancelResetButton.addEventListener("click",hideResetModal);
+            allElements.confirmResetButton.addEventListener("click",requestResetPassword);
+            allElements.cancelPasswordResetButton.addEventListener("click",hidePasswordResetModal);
+            allElements.confirmPasswordResetButton.addEventListener("click",verifyAndReset);
+        });
     </script>
 </body>
 </html>
